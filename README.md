@@ -1,4 +1,4 @@
-# 🧥 FITZ — Store Management System
+# 🧥 SILVER7 — Store Management System
 
 > A mobile-first retail management app for clothing & apparel stores.
 
@@ -12,7 +12,7 @@
 
 ## Overview
 
-**FITZ** is a dark-themed store management system built for retail businesses. It covers sales tracking, inventory, employee management, and logistics in one place.
+**SILVER7** is a dark-themed store management system built for retail businesses. It covers sales tracking, inventory, employee management, and logistics in one place.
 
 > ⚠️ Currently in active development — no backend connected yet.
 
@@ -49,8 +49,8 @@
 
 ```bash
 # Clone the repo
-git clone https://github.com/your-username/fitz.git
-cd fitz
+git clone https://github.com/your-username/SILVER7.git
+cd SILVER7
 
 # Install dependencies
 npm install
@@ -75,6 +75,3 @@ npm run dev
 
 ---
 
-## License
-
-[MIT](./LICENSE)
