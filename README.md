@@ -1,4 +1,4 @@
-# 🧥 SILVER7 — Store Management System
+# SILVER7 — Store Management System
 
 > A mobile-first retail management app for clothing & apparel stores.
 
@@ -42,22 +42,6 @@
 | **Inventory** | Product list with SKU, stock levels, low stock & out-of-stock alerts |
 | **Employees** | Staff directory with role and status (Active / On Leave / Inactive) |
 | **Logistics** | Shipment tracking with J&T Express integration |
-
----
-
-## Getting Started
-
-```bash
-# Clone the repo
-git clone https://github.com/your-username/SILVER7.git
-cd SILVER7
-
-# Install dependencies
-npm install
-
-# Start the dev server
-npm run dev
-```
 
 ---
 
