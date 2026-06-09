@@ -1,8 +1,7 @@
-<<<<<<< HEAD
-# 🧥 FITZ — Store Management System
+
 =======
 # SILVER7 — Store Management System
->>>>>>> ed8062bdfe9f005f8a6b2251e5239f0395b35779
+
 
 > A mobile-first retail management app for clothing & apparel stores.
 
@@ -16,11 +15,9 @@
 
 ## Overview
 
-<<<<<<< HEAD
-**FITZ** is a dark-themed store management system built for retail businesses. It covers sales tracking, inventory, employee management, and logistics in one place.
 =======
 **SILVER7** is a dark-themed store management system built for retail businesses. It covers sales tracking, inventory, employee management, and logistics in one place.
->>>>>>> ed8062bdfe9f005f8a6b2251e5239f0395b35779
+
 
 > ⚠️ Currently in active development — no backend connected yet.
 
@@ -54,7 +51,7 @@
 ---
 
 =======
->>>>>>> ed8062bdfe9f005f8a6b2251e5239f0395b35779
+
 ## Roadmap
 
 - [x] Dashboard with KPI cards and revenue chart
@@ -69,4 +66,4 @@
 
 ---
 =======
->>>>>>> ed8062bdfe9f005f8a6b2251e5239f0395b35779
+
