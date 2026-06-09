@@ -1,5 +1,21 @@
 // lib/employees.ts
-export const employeesData = [  {
+
+type EmployeeStatus = "Active" | "On Leave" | "Inactive";
+
+type Employee = {
+  id: number;
+  name: string;
+  role: string;
+  status: EmployeeStatus;
+  phone?: string;
+  email?: string;
+  hours?: string;
+  memberSince?: string;
+  schedule?: Record<string, string>;
+};
+
+export const employeesData: Employee[] = [
+  {
     id: 1, name: "James Carter", role: "Store Manager", status: "Active",
     phone: "+1 555-0101", email: "james@fitz.com", hours: "40h/wk", memberSince: "Jan 2022",
     schedule: { Mon: "9:00 AM – 5:00 PM", Tue: "9:00 AM – 5:00 PM", Wed: "9:00 AM – 5:00 PM", Thu: "9:00 AM – 5:00 PM", Fri: "9:00 AM – 3:00 PM", Sat: "Off", Sun: "Off" },
@@ -23,4 +39,5 @@ export const employeesData = [  {
     id: 5, name: "Tony Nguyen", role: "Sales Associate", status: "Inactive",
     phone: "+1 555-0105", email: "tony@fitz.com", hours: "—", memberSince: "Jan 2024",
     schedule: { Mon: "9:00 AM – 5:00 PM", Tue: "9:00 AM – 5:00 PM", Wed: "9:00 AM – 5:00 PM", Thu: "9:00 AM – 5:00 PM", Fri: "9:00 AM – 5:00 PM", Sat: "Off", Sun: "Off" },
-  }, ];
+  },
+];

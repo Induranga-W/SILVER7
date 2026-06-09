@@ -6,7 +6,7 @@
   --background: #000000;
   --foreground: #ffffff;
 
-  --btn-bg: #424242;
+  --btn-bg: #0e0e0e;
   --btn-icon: #ffffff;
 
   --accent-1: #1197cc;
@@ -19,7 +19,7 @@
   --muted: #888888;
 
   --card-bg2: #0e0e0e;
-  --card-bg: #1d1d1d; 
+  --card-bg: #131313; 
 }
 
 input, select {
