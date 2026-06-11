@@ -59,7 +59,8 @@
 - [x] Inventory management with stock alerts
 - [x] Employee directory with status tags
 - [x] Logistics & shipment tracking
-- [ ] Settings screen
+- [x] Settings screen
+- [x] local login screen
 - [ ] Backend & database integration
 - [ ] Authentication & role-based access
 - [ ] Export reports (PDF / CSV)
