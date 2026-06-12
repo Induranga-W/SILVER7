@@ -5,12 +5,12 @@
 
 > A mobile-first retail management app for clothing & apparel stores.
 
-![Status](https://img.shields.io/badge/status-in%20development-yellow)
-![React](https://img.shields.io/badge/React-61DAFB?logo=react&logoColor=black)
-![TypeScript](https://img.shields.io/badge/TypeScript-3178C6?logo=typescript&logoColor=white)
-![TailwindCSS](https://img.shields.io/badge/Tailwind_CSS-06B6D4?logo=tailwindcss&logoColor=white)
-![Python](https://img.shields.io/badge/Python-3776AB?logo=python&logoColor=white)
-
+![Status](https://img.shields.io/badge/status-in%20development-purple)
+![React](https://img.shields.io/badge/REACT-000000?style=for-the-badge&logo=react&logoColor=58C4DC)
+![TypeScript](https://img.shields.io/badge/TYPESCRIPT-000000?style=for-the-badge&logo=typescript&logoColor=3178C6)
+![TailwindCSS](https://img.shields.io/badge/TAILWINDCSS-000000?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4)
+![Python](https://img.shields.io/badge/PYTHON-000000?style=for-the-badge&logo=python&logoColor=3776AB)
+![Html](https://img.shields.io/badge/Html-000000?style=for-the-badge&logo=html5&logoColor=f06529)
 ---
 
 ## Overview
@@ -59,7 +59,8 @@
 - [x] Inventory management with stock alerts
 - [x] Employee directory with status tags
 - [x] Logistics & shipment tracking
-- [ ] Settings screen
+- [x] Settings screen
+- [x] local login screen
 - [ ] Backend & database integration
 - [ ] Authentication & role-based access
 - [ ] Export reports (PDF / CSV)
