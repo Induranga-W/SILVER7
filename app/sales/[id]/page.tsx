@@ -68,7 +68,7 @@ export default function SaleDetailPage() {
       <div className="bg-[var(--btn-bg)] rounded-[12px] p-5 mb-4">
         <div className="flex justify-between items-start mb-4">
           <div>
-            <div className="text-[#8888a0] text-[0.78rem] mb-1">Order ID</div>
+            <div className="text-[var(--accent-1)] text-[0.78rem] mb-1">Order ID</div>
             <div className="text-white text-[1.6rem] font-bold">{sale.id}</div>
           </div>
           <span className={`${sc.bg} ${sc.text} border ${sc.border} text-[0.75rem] font-semibold px-3 py-1 rounded-full`}>
@@ -88,12 +88,12 @@ export default function SaleDetailPage() {
             </div>
             <div>
               <div className="text-white font-semibold text-[0.95rem]">{sale.item}</div>
-              <div className="text-[#8888a0] text-[0.78rem]">Unit Price: {sale.unitPrice}</div>
+              <div className="text-[var(--accent-1)] text-[0.78rem]">Unit Price: {sale.unitPrice}</div>
             </div>
           </div>
           <div className="text-right">
             <div className="text-[var(--accent-2)] font-bold text-base">{sale.price}</div>
-            <div className="text-[#8888a0] text-[0.78rem]">Qty: {sale.qty}</div>
+            <div className="text-[var(--accent-1)] text-[0.78rem]">Qty: {sale.qty}</div>
           </div>
         </div>
       </div>
@@ -108,7 +108,7 @@ export default function SaleDetailPage() {
           >
             <div className="flex items-center gap-[10px]">
               {row.icon}
-              <span className="text-[#8888a0] text-[0.85rem]">{row.label}</span>
+              <span className="text-[var(--accent-2)]/80 text-[0.85rem]">{row.label}</span>
             </div>
             <span className="text-white font-semibold text-[0.85rem]">{row.value}</span>
           </div>
@@ -118,7 +118,7 @@ export default function SaleDetailPage() {
       {/* Note Card */}
       <div className="bg-[var(--btn-bg)] rounded-[12px] p-5">
         <h2 className="text-white text-base font-bold mb-3">Note</h2>
-        <p className="text-[#8888a0] text-[0.85rem]">No notes added for this order.</p>
+        <p className="text-[var(--accent-2)]/80 text-[0.85rem]">No notes added for this order.</p>
       </div>
 
     </div>

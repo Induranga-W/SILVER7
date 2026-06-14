@@ -94,13 +94,7 @@ export default function EmployeeDetailPage() {
   return (
     <div className="bg-[var(--background)] min-h-screen font-sans px-5 pt-5 pb-12">
 
-      {/* Back */}
-      <Link href="/employees" className="flex items-center gap-1 text-[var(--accent-2)] text-[0.88rem] pb-5 mb-1 no-underline">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" strokeWidth="2">
-          <polyline points="15 18 9 12 15 6" />
-        </svg>
-        Back
-      </Link>
+     
 
       {/* Profile Card */}
       <div className="bg-[var(--card-bg)] rounded-[16px] px-5 pt-6 pb-5 mb-4 text-center">
@@ -175,12 +169,6 @@ export default function EmployeeDetailPage() {
       {showEdit && editForm && (
         <div className="fixed inset-0 bg-[var(--background)] z-[100] overflow-y-auto font-sans">
           <div className="flex items-center justify-center relative px-5 pt-5 pb-4">
-            <Link href={`/employees/${id}`} className="absolute left-5 flex items-center gap-1 text-white text-[0.85rem] no-underline">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="var(--accent-1)" strokeWidth="2">
-                <polyline points="15 18 9 12 15 6" />
-              </svg>
-              Back
-            </Link>
             <h2 className="text-white text-[1.05rem] font-bold">Edit Employee</h2>
           </div>
 

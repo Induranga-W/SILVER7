@@ -25,7 +25,7 @@ export default function StatCard({ icon, value, label, change, trend }: StatCard
   return (
     <div className="bg-[var(--card-bg)] rounded-[12px] px-[1.4rem] pt-[1.2rem] pb-[1.4rem] flex flex-col gap-2">
       <div className="flex items-center justify-between">
-        <span className="flex items-center text-[#1197cc]">{icon}</span>
+        <span className="flex items-center text-[var(--accent-1)]">{icon}</span>
         <span className={`${badgeClass} text-[0.72rem] font-semibold px-2 py-[2px] rounded-full`}>
           {arrow} {change > 0 ? "+" : ""}{change}%
         </span>
@@ -33,7 +33,7 @@ export default function StatCard({ icon, value, label, change, trend }: StatCard
       <div className="text-[1.65rem] font-bold text-white leading-none mt-1">
         {value}
       </div>
-      <div className="text-[0.8rem] text-[#8888a0]">{label}</div>
+      <div className="text-[0.8rem] text-[var(--accent-2)]">{label}</div>
     </div>
   );
 }

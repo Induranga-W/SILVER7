@@ -50,9 +50,9 @@ function statusBadgeClass(status: StockStatus) {
   return "bg-[rgba(255,59,48,0.15)] text-[#ff3b30] border border-[#ff3b30]";
 }
 
-const inputClass = "w-full bg-[#13131a] border border-[#2a2a3a] rounded-[10px] px-4 py-3 text-white text-[0.88rem] outline-none box-border";
-const labelClass = "text-[#8888a0] text-[0.75rem] mb-[6px] block";
-const sectionLabelClass = "text-[#8888a0] text-[0.7rem] font-bold tracking-widest mb-4 block uppercase";
+const inputClass = "w-full bg-[] border border-[var(--accent-1)] rounded-[10px] px-4 py-3 text-white text-[0.88rem] outline-none box-border";
+const labelClass = "text-[var(--accent-2)] text-[0.75rem] mb-[6px] block";
+const sectionLabelClass = "text-[var(--accent-1)] text-[0.7rem] font-bold tracking-widest mb-4 block uppercase";
 
 export default function InventoryDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = use(params);
@@ -265,7 +265,7 @@ export default function InventoryDetailPage({ params }: { params: Promise<{ id: 
         <div className="fixed inset-0 bg-[var(--background)] z-[100] overflow-y-auto font-sans">
           <div className="flex items-center justify-center relative px-5 pt-5 pb-4">
             <Link href={`/inventory/${id}`} className="absolute left-5 flex items-center gap-1 text-[#8888a0] text-[0.85rem] no-underline">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8888a0" strokeWidth="2" className="pointer-events-none">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="var(--accent-2)" strokeWidth="2" className="pointer-events-none">
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
               Back
@@ -278,11 +278,11 @@ export default function InventoryDetailPage({ params }: { params: Promise<{ id: 
             <span className={sectionLabelClass}>PRODUCT INFO</span>
 
             <div>
-              <label className={labelClass}>Product Name <span className="text-[#ff3b30]">*</span></label>
+              <label className={labelClass}>Product Name <span className="text-[var(--accent-2)]">*</span></label>
               <input value={editForm.name} onChange={e => setEditForm(f => ({ ...f!, name: e.target.value }))} className={inputClass} />
             </div>
             <div>
-              <label className={labelClass}>SKU <span className="text-[#ff3b30]">*</span></label>
+              <label className={labelClass}>SKU <span className="text-[var(--accent-2)]">*</span></label>
               <input value={editForm.sku} onChange={e => setEditForm(f => ({ ...f!, sku: e.target.value }))} className={inputClass} />
             </div>
             <div>

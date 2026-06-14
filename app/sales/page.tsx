@@ -26,11 +26,13 @@ function statusClasses(status: string) {
 export default function SalesPage() {
   return (
     <div className="bg-[var(--background)] min-h-screen font-sans pb-20">
+      
+    
 
       {/* Page Header */}
       <div className="px-5 pt-4 pb-2">
         <h1 className="text-white text-[1.5rem] font-bold mb-[0.2rem]">Sales</h1>
-        <p className="text-[#8888a0] text-[0.82rem]">Track your revenue &amp; orders</p>
+        <p className="text-[var(--accent-2)]/50 text-[0.82rem]">Track your revenue &amp; orders</p>
       </div>
 
       {/* Stat Cards */}
@@ -40,7 +42,7 @@ export default function SalesPage() {
           return (
             <div key={s.label} className="bg-[var(--btn-bg)] rounded-[12px] p-4">
               <div className="flex justify-between items-center mb-2">
-                <span className="text-[#8888a0] text-[0.78rem]">{s.label}</span>
+                <span className="text-[car(--accent-2)]/50 text-[0.78rem]">{s.label}</span>
                 <span className={`text-[0.7rem] font-semibold px-[7px] py-[2px] rounded-full ${isUp ? "bg-[rgba(52,199,89,0.15)] text-[#34c759]" : "bg-[rgba(255,59,48,0.15)] text-[#ff3b30]"}`}>
                   {isUp ? "↗" : "↘"} {isUp ? "+" : ""}{s.change}%
                 </span>

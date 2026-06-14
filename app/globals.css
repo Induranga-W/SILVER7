@@ -1,25 +1,20 @@
 @import url('https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@400;500;600;700&display=swap');
 @import "tailwindcss";
 
-
 :root {
   --background: #000000;
   --foreground: #ffffff;
-
   --btn-bg: #0e0e0e;
   --btn-icon: #ffffff;
-
   --accent-1: #1197cc;
   --accent-2: #ffffff;
   --accent-3: #ffee00;
-
   --surface: #111111;
   --surface-hover: #525252;
   --border: #2a2a2a;
   --muted: #888888;
-
   --card-bg2: #0e0e0e;
-  --card-bg: #131313; 
+  --card-bg: #131313;
 }
 
 input, select {
@@ -35,14 +30,11 @@ input::placeholder {
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-
   --color-btn-bg: var(--btn-bg);
   --color-btn-icon: var(--btn-icon);
-
   --color-accent-blue: var(--accent-1);
   --color-accent-white: var(--accent-2);
   --color-accent-yellow: var(--accent-3);
-
   --color-surface: var(--surface);
   --color-surface-hover: var(--surface-hover);
   --color-border: var(--border);
@@ -56,17 +48,10 @@ body {
   font-family: var(--font-geist-sans), sans-serif;
 }
 
-
-
-
-
-
-
 button {
   -webkit-tap-highlight-color: transparent;
   touch-action: manipulation;
 }
-
 
 [role="button"],
 a {

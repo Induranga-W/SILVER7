@@ -156,7 +156,7 @@ export default function InventoryPage() {
       <div className="flex justify-between items-start mb-5">
         <div>
           <h1 className="text-white text-[1.5rem] font-bold mb-[0.2rem]">Inventory</h1>
-          <p className="text-[#8888a0] text-[0.82rem]">{products.length} products</p>
+          <p className="text-[var(--accent-1)] text-[0.82rem]">{products.length} products</p>
         </div>
         <div className="flex gap-[0.6rem] relative z-50">
           <Link

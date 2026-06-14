@@ -8,7 +8,7 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-black pt-20 p-8 font-sans">
 
       <h1 className="text-[1.6rem] font-bold text-white mb-[0.2rem]">Dashboard</h1>
-      <p className="text-[0.85rem] text-[#8888a0] mb-6">Overview of your store</p>
+      <p className="text-[0.85rem] text-[var(--accent-2)]/80 mb-6">Overview of your store</p>
 
       {/* Stat Cards */}
       <div className="grid grid-cols-2 gap-4 mb-4">
