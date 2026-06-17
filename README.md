@@ -18,9 +18,6 @@
 =======
 **SILVER7** is a dark-themed store management system built for retail businesses. It covers sales tracking, inventory, employee management, and logistics in one place.
 
-
-> ⚠️ Currently in active development — no backend connected yet.
-
 ---
 
 ## Tech Stack
@@ -61,7 +58,7 @@
 - [x] Logistics & shipment tracking
 - [x] Settings screen
 - [x] local login screen
-- [ ] Backend & database integration
+- [x] Backend & database integration
 - [ ] Authentication & role-based access
 - [ ] Export reports (PDF / CSV)
 
