@@ -7,8 +7,8 @@ import { useSearchParams } from "next/navigation";
 const CURRENCIES = ["USD", "EUR", "GBP", "LKR", "AUD", "CAD", "JPY", "SGD"];
 
 const selectBg = `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%238888a0' stroke-width='2'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E")`;
-const inputClass = "w-full bg-[var(--accent-1)] border border-[var(--accent-1)] rounded-[10px] px-4 py-3 text-white text-[0.88rem] outline-none";
-const labelClass = "text-[#8888a0] text-[0.75rem] mb-[6px] block";
+const inputClass = "w-full bg-[var(--card-bg)] border border-[var(--accent-1)] rounded-[10px] px-4 py-3 text-white text-[0.88rem] outline-none";
+const labelClass = "text-[var(--accent-2)] text-[0.75rem] mb-[6px] block";
 
 function Toggle({ on, onToggle }: { on: boolean; onToggle: () => void }) {
   return (
@@ -146,12 +146,12 @@ export default function SettingsPage() {
         Log Out
       </a>
 
-      {/* Change Password Modal */}
+      {/* Change Password Modal  (putr it in the privacy policy change it later)*/}
       {showPasswordModal && (
-        <div className="fixed inset-0 bg-[#13131a] z-[100] overflow-y-auto">
+        <div className="fixed inset-0 bg-[var(--background)] z-[100] overflow-y-auto">
           <div className="flex items-center justify-center relative px-5 pt-5 pb-4">
-            <Link href="/settings" className="absolute left-5 flex items-center gap-1 text-[#8888a0] text-[0.85rem] no-underline">
-              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#8888a0" strokeWidth="2" className="pointer-events-none">
+            <Link href="/settings" className="absolute left-5 flex items-center gap-1 text-[var(--accent-2)] text-[0.85rem] no-underline">
+              <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#ffffff" strokeWidth="2" className="pointer-events-none">
                 <polyline points="15 18 9 12 15 6"/>
               </svg>
               Back
@@ -159,33 +159,38 @@ export default function SettingsPage() {
             <h2 className="text-white text-[1.05rem] font-bold">Privacy &amp; Security</h2>
           </div>
 
-          <div className="mx-5 mb-4 bg-[#1e1e2e] rounded-[16px] p-5 flex flex-col gap-4">
-            <p className="text-[#8888a0] text-[0.78rem]">Change your login credentials below.</p>
+          <div className="mx-5 mb-4 bg-[var(--card-bg)] rounded-[16px] p-5 flex flex-col gap-4">
+            <p className="text-[var(--accent-1)] text-[0.78rem]">Change your login credentials below.</p>
+
             <div>
               <label className={labelClass}>New Username (optional)</label>
               <input type="text" placeholder="Enter new username" value={newUsername} onChange={e => { setNewUsername(e.target.value); setPassError(""); }} className={inputClass} autoCapitalize="none" />
             </div>
+
             <div>
               <label className={labelClass}>Current Password</label>
               <input type="password" placeholder="Enter current password" value={currentPass} onChange={e => { setCurrentPass(e.target.value); setPassError(""); }} className={inputClass} />
             </div>
+
             <div>
               <label className={labelClass}>New Password</label>
               <input type="password" placeholder="Min. 6 characters" value={newPass} onChange={e => { setNewPass(e.target.value); setPassError(""); }} className={inputClass} />
             </div>
+
             <div>
               <label className={labelClass}>Confirm New Password</label>
               <input type="password" placeholder="Repeat new password" value={confirmPass} onChange={e => { setConfirmPass(e.target.value); setPassError(""); }} className={inputClass} />
             </div>
-            {passError && <p className="text-[#ff3b30] text-[0.78rem]">{passError}</p>}
-            {passSuccess && <p className="text-[#34c759] text-[0.78rem]">Credentials updated!</p>}
+
+            {passError && <p className="text-[var(--accent-2)] text-[0.78rem]">{passError}</p>}
+            {passSuccess && <p className="text-[var(--accent-2)] text-[0.78rem]">Credentials updated!</p>}
           </div>
 
           <div className="px-5 pb-10">
             <a
               href="#"
               onClick={e => { e.preventDefault(); handleSaveCredentials(); }}
-              className="w-full bg-[#7c3aed] text-white rounded-[14px] py-4 font-bold text-base flex items-center justify-center no-underline touch-manipulation"
+              className="w-full bg-[var(--accent-1)] text-white rounded-[14px] py-4 font-bold text-base flex items-center justify-center no-underline touch-manipulation"
             >
               Save Changes
             </a>
