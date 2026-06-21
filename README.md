@@ -44,7 +44,7 @@
 | **Order Detail** | Per-order breakdown — customer, payment, date, notes |
 | **Inventory** | Product list with SKU, stock levels, low stock & out-of-stock alerts |
 | **Employees** | Staff directory with role and status (Active / On Leave / Inactive) |
-| **Logistics** | Shipment tracking with J&T Express integration |
+| **Logistics** | Shipment tracking |
 
 ---
 
