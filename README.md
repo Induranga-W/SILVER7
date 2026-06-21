@@ -11,6 +11,7 @@
 ![TailwindCSS](https://img.shields.io/badge/TAILWINDCSS-000000?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4)
 ![Python](https://img.shields.io/badge/PYTHON-000000?style=for-the-badge&logo=python&logoColor=3776AB)
 ![Html](https://img.shields.io/badge/Html-000000?style=for-the-badge&logo=html5&logoColor=f06529)
+![supabase](https://img.shields.io/badge/supabase-000000?style=for-the-badge&logo=supabase&logoColor=3ecf8e)
 ---
 
 ## Overview
@@ -29,7 +30,7 @@
 | **Markup** | HTML |
 | **Styling** | Tailwind CSS |
 | **Scripting** | Python |
-| **Backend** | None (in progress) |
+| **Backend** | Supabase (Postgres) — Inventory module connected |
 
 ---
 
@@ -58,7 +59,7 @@
 - [x] Logistics & shipment tracking
 - [x] Settings screen
 - [x] local login screen
-- [x] Backend & database integration
+- [x] Backend & database integration (in progress)
 - [ ] Authentication & role-based access
 - [ ] Export reports (PDF / CSV)
 

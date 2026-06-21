@@ -180,7 +180,7 @@ export default function EmployeeDetailPage() {
                 </label>
                 <input
                   type="text"
-                  value={(editForm as Record<string, string>)[key] ?? ""}
+                  value={String((editForm as unknown as Record<string, string | number>)[key] ?? "")}
                   onChange={e => { setEditForm(f => ({ ...f!, [key]: e.target.value })); setErrors(er => ({ ...er, [key]: "" })); }}
                   className={`${inputClass} ${errors[key] ? "border-[#ff3b30]" : "border-[var(--border)]"}`}
                 />

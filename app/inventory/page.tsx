@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 import { useSearchParams, useRouter } from "next/navigation";
 
@@ -18,17 +18,6 @@ type Product = {
   minStock: number;
 };
 
-const initialProducts: Product[] = [
-  { id: 1, name: "Baseball Caps", category: "Accessories", sku: "FTZ_102", description: "", costPrice: 10, sellPrice: 23.00, stock: 0, minStock: 5 },
-  { id: 2, name: "White Denim Jacket", category: "Pants", sku: "FTZ-0012", description: "", costPrice: 25, sellPrice: 55.00, stock: 200, minStock: 10 },
-  { id: 3, name: "Black Chinos", category: "Pants", sku: "FTZ-003", description: "", costPrice: 20, sellPrice: 49.99, stock: 22, minStock: 10 },
-  { id: 4, name: "Hoodie Gray", category: "Hoodies", sku: "FTZ-006", description: "", costPrice: 30, sellPrice: 69.99, stock: 105, minStock: 10 },
-  { id: 5, name: "White Polo Shirt", category: "Shirts", sku: "FTZ-002", description: "", costPrice: 15, sellPrice: 39.99, stock: 7, minStock: 10 },
-  { id: 6, name: "Cargo Pants", category: "Pants", sku: "FTZ-005", description: "", costPrice: 22, sellPrice: 49.99, stock: 18, minStock: 10 },
-  { id: 7, name: "Red Hoodie", category: "Hoodies", sku: "FTZ-009", description: "", costPrice: 25, sellPrice: 54.99, stock: 14, minStock: 10 },
-  { id: 8, name: "Blue Denim Jacket", category: "Jackets", sku: "FTZ-011", description: "", costPrice: 28, sellPrice: 59.99, stock: 30, minStock: 10 },
-];
-
 const CATEGORIES = ["Accessories", "Pants", "Hoodies", "Shirts", "Jackets"];
 
 // SVG arrow kept as a style prop — data URLs with quotes/special chars break PostCSS when used inside Tailwind arbitrary values
@@ -37,6 +26,42 @@ const selectArrowStyle: React.CSSProperties = {
   backgroundRepeat: "no-repeat",
   backgroundPosition: "right 14px center",
 };
+
+function Field({ name, label, placeholder, type = "text", required = false, value, error, onChange }: {
+  name: keyof typeof emptyForm; label: string; placeholder: string; type?: string; required?: boolean;
+  value: string; error?: string; onChange: (value: string) => void;
+}) {
+  return (
+    <div>
+      <label className={labelClass}>
+        {label}{required && <span className="text-[#ff3b30]"> *</span>}
+      </label>
+      <input
+        type={type}
+        placeholder={placeholder}
+        value={value}
+        onChange={e => onChange(e.target.value)}
+        className={`${inputClass} ${error ? "border-[#ff3b30]" : "border-[#2a2a3a]"}`}
+      />
+      {error && <p className="text-[#ff3b30] text-[0.72rem] mt-1 ml-[2px]">{error}</p>}
+    </div>
+  );
+}
+
+function Pill({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
+  return (
+    <button
+      onClick={onClick}
+      className={`border rounded-full px-[14px] py-[5px] text-[0.78rem] cursor-pointer transition-colors ${
+        active
+          ? "bg-[var(--accent-1)] border-[var(--accent-1)] text-white font-semibold"
+          : "bg-transparent border-[var(--border)] text-[var(--muted)] font-normal"
+      }`}
+    >
+      {label}
+    </button>
+  );
+}
 
 function getStatus(stock: number, minStock: number): StockStatus {
   if (stock === 0) return "Out of Stock";
@@ -66,11 +91,29 @@ export default function InventoryPage() {
   const showFilter = searchParams.get("filter") === "true";
 
   const [search, setSearch] = useState("");
-  const [products, setProducts] = useState<Product[]>(initialProducts);
+  const [products, setProducts] = useState<Product[]>([]);
+  const [loading, setLoading] = useState(true);
   const [filterCategory, setFilterCategory] = useState("All");
   const [filterStatus, setFilterStatus] = useState<StockStatus | "All">("All");
   const [form, setForm] = useState({ ...emptyForm });
   const [errors, setErrors] = useState<Partial<typeof emptyForm>>({});
+  const [saving, setSaving] = useState(false);
+
+  async function loadProducts() {
+    try {
+      const res = await fetch("/api/products");
+      const data = await res.json();
+      setProducts(Array.isArray(data) ? data : []);
+    } catch {
+      setProducts([]);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  useEffect(() => {
+    loadProducts();
+  }, []);
 
   const totalValue = products.reduce((sum, p) => sum + p.sellPrice * p.stock, 0);
   const lowStock = products.filter(p => getStatus(p.stock, p.minStock) === "Low Stock").length;
@@ -96,58 +139,43 @@ export default function InventoryPage() {
     return errs;
   }
 
-  function handleSave() {
+  async function handleSave() {
     const errs = validate();
     if (Object.keys(errs).length > 0) { setErrors(errs); return; }
-    setProducts(prev => [...prev, {
-      id: Date.now(),
-      name: form.name.trim(),
-      category: form.category,
-      sku: form.sku.trim(),
-      description: form.description.trim(),
-      costPrice: parseFloat(form.costPrice) || 0,
-      sellPrice: parseFloat(form.sellPrice) || 0,
-      stock: parseInt(form.stock) || 0,
-      minStock: parseInt(form.minStock) || 5,
-    }]);
-    router.push("/inventory");
-    setForm({ ...emptyForm });
-    setErrors({});
+    setSaving(true);
+    try {
+      const res = await fetch("/api/products", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: form.name.trim(),
+          category: form.category,
+          sku: form.sku.trim(),
+          description: form.description.trim(),
+          costPrice: parseFloat(form.costPrice) || 0,
+          sellPrice: parseFloat(form.sellPrice) || 0,
+          stock: parseInt(form.stock) || 0,
+          minStock: parseInt(form.minStock) || 5,
+        }),
+      });
+      if (!res.ok) {
+        const errBody = await res.json().catch(() => ({}));
+        throw new Error(errBody.error || "Save failed");
+      }
+      await loadProducts();
+      router.push("/inventory");
+      setForm({ ...emptyForm });
+      setErrors({});
+    } catch (err) {
+      setErrors({ name: err instanceof Error ? err.message : "Could not save product. Try again." });
+    } finally {
+      setSaving(false);
+    }
   }
 
-  function Field({ name, label, placeholder, type = "text", required = false }: {
-    name: keyof typeof emptyForm; label: string; placeholder: string; type?: string; required?: boolean;
-  }) {
-    return (
-      <div>
-        <label className={labelClass}>
-          {label}{required && <span className="text-[#ff3b30]"> *</span>}
-        </label>
-        <input
-          type={type}
-          placeholder={placeholder}
-          value={form[name]}
-          onChange={e => { setForm(f => ({ ...f, [name]: e.target.value })); setErrors(er => ({ ...er, [name]: undefined })); }}
-          className={`${inputClass} ${errors[name] ? "border-[#ff3b30]" : "border-[#2a2a3a]"}`}
-        />
-        {errors[name] && <p className="text-[#ff3b30] text-[0.72rem] mt-1 ml-[2px]">{errors[name]}</p>}
-      </div>
-    );
-  }
-
-  function Pill({ label, active, onClick }: { label: string; active: boolean; onClick: () => void }) {
-    return (
-      <button
-        onClick={onClick}
-        className={`border rounded-full px-[14px] py-[5px] text-[0.78rem] cursor-pointer transition-colors ${
-          active
-            ? "bg-[var(--accent-1)] border-[var(--accent-1)] text-white font-semibold"
-            : "bg-transparent border-[var(--border)] text-[var(--muted)] font-normal"
-        }`}
-      >
-        {label}
-      </button>
-    );
+  function fieldChange(name: keyof typeof emptyForm, value: string) {
+    setForm(f => ({ ...f, [name]: value }));
+    setErrors(er => ({ ...er, [name]: undefined }));
   }
 
   return (
@@ -237,7 +265,9 @@ export default function InventoryPage() {
 
       {/* Product List */}
       <div className="flex flex-col gap-[0.6rem]">
-        {filtered.length === 0
+        {loading
+          ? <p className="text-[#8888a0] text-center mt-8">Loading products...</p>
+          : filtered.length === 0
           ? <p className="text-[#8888a0] text-center mt-8">No products found.</p>
           : filtered.map(p => {
             const status = getStatus(p.stock, p.minStock);
@@ -291,9 +321,9 @@ export default function InventoryPage() {
           {/* PRODUCT INFO */}
           <div className="mx-5 mb-4 bg-[var(--card-bg)] rounded-[16px] p-5 flex flex-col gap-4">
             <span className={sectionLabelClass}>PRODUCT INFO</span>
-            <Field name="name" label="Product Name" placeholder="e.g. Blue Denim Jacket" required />
-            <Field name="sku" label="SKU" placeholder="e.g. FTZ-007" required />
-            <Field name="description" label="Description" placeholder="Short description (optional)" />
+            <Field name="name" label="Product Name" placeholder="e.g. Blue Denim Jacket" required value={form.name} error={errors.name} onChange={v => fieldChange("name", v)} />
+            <Field name="sku" label="SKU" placeholder="e.g. FTZ-007" required value={form.sku} error={errors.sku} onChange={v => fieldChange("sku", v)} />
+            <Field name="description" label="Description" placeholder="Short description (optional)" value={form.description} error={errors.description} onChange={v => fieldChange("description", v)} />
             <div>
               <label className={labelClass}>Category</label>
               <select
@@ -362,12 +392,14 @@ export default function InventoryPage() {
 
           {/* Save */}
           <div className="px-5 pb-10">
-            <button
-              onClick={handleSave}
-              className="w-full bg-[var(--accent-1)] text-white border-none rounded-[14px] py-4 font-bold text-base cursor-pointer"
+            <a
+              href="#"
+              onClick={e => { e.preventDefault(); if (!saving) handleSave(); }}
+              className="w-full bg-[var(--accent-1)] text-white border-none rounded-[14px] py-4 font-bold text-base cursor-pointer flex items-center justify-center no-underline touch-manipulation select-none"
+              style={{ opacity: saving ? 0.6 : 1 }}
             >
-              Save Product
-            </button>
+              {saving ? "Saving..." : "Save Product"}
+            </a>
           </div>
 
         </div>

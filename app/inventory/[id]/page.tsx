@@ -16,17 +16,6 @@ type Product = {
   minStock: number;
 };
 
-const initialProducts: Product[] = [
-  { id: 1, name: "Baseball Caps", category: "Accessories", sku: "FTZ_102", description: "Classic baseball cap", costPrice: 10, sellPrice: 23.00, stock: 0, minStock: 5 },
-  { id: 2, name: "White Denim Jacket", category: "Pants", sku: "FTZ-0012", description: "White denim jacket", costPrice: 25, sellPrice: 55.00, stock: 200, minStock: 10 },
-  { id: 3, name: "Black Chinos", category: "Pants", sku: "FTZ-003", description: "Slim fit black chinos", costPrice: 20, sellPrice: 49.99, stock: 22, minStock: 10 },
-  { id: 4, name: "Hoodie Gray", category: "Hoodies", sku: "FTZ-006", description: "Gray pullover hoodie", costPrice: 30, sellPrice: 69.99, stock: 105, minStock: 10 },
-  { id: 5, name: "White Polo Shirt", category: "Shirts", sku: "FTZ-002", description: "Classic white polo", costPrice: 15, sellPrice: 39.99, stock: 7, minStock: 10 },
-  { id: 6, name: "Cargo Pants", category: "Pants", sku: "FTZ-005", description: "Multi-pocket cargo pants", costPrice: 22, sellPrice: 49.99, stock: 18, minStock: 10 },
-  { id: 7, name: "Red Hoodie", category: "Hoodies", sku: "FTZ-009", description: "Red zip-up hoodie", costPrice: 25, sellPrice: 54.99, stock: 14, minStock: 10 },
-  { id: 8, name: "Blue Denim Jacket", category: "Jackets", sku: "FTZ-011", description: "Classic blue denim jacket", costPrice: 28, sellPrice: 59.99, stock: 30, minStock: 10 },
-];
-
 const CATEGORIES = ["Accessories", "Pants", "Hoodies", "Shirts", "Jackets"];
 
 // SVG arrow kept as a style prop — data URLs with quotes/special chars break PostCSS when used inside Tailwind arbitrary values
@@ -60,19 +49,38 @@ export default function InventoryDetailPage({ params }: { params: Promise<{ id: 
   const showEdit = searchParams.get("modal") === "edit";
   const showConfirm = searchParams.get("modal") === "confirm";
 
-  const product = initialProducts.find(p => p.id === Number(id));
-
-  const [stock, setStock] = useState(product?.stock ?? 0);
+  const [product, setProduct] = useState<Product | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [notFound, setNotFound] = useState(false);
+  const [stock, setStock] = useState(0);
   const [exactInput, setExactInput] = useState(false);
   const [exactVal, setExactVal] = useState("");
   const [editForm, setEditForm] = useState<Product | null>(null);
   const [profitMargin, setProfitMargin] = useState("0");
+  const [saving, setSaving] = useState(false);
+
+  useEffect(() => {
+    let cancelled = false;
+    fetch(`/api/products/${id}`)
+      .then(res => {
+        if (!res.ok) throw new Error("not found");
+        return res.json();
+      })
+      .then(data => {
+        if (cancelled) return;
+        setProduct(data);
+        setStock(data.stock);
+      })
+      .catch(() => { if (!cancelled) setNotFound(true); })
+      .finally(() => { if (!cancelled) setLoading(false); });
+    return () => { cancelled = true; };
+  }, [id]);
 
   useEffect(() => {
     if (showEdit && product) {
       setEditForm({ ...product, stock });
     }
-  }, [showEdit]);
+  }, [showEdit, product]);
 
   useEffect(() => {
     if (editForm) {
@@ -83,7 +91,15 @@ export default function InventoryDetailPage({ params }: { params: Promise<{ id: 
     }
   }, [editForm?.costPrice, editForm?.sellPrice]);
 
-  if (!product) {
+  if (loading) {
+    return (
+      <div className="bg-[var(--background)] min-h-screen flex items-center justify-center font-sans">
+        <p className="text-[#8888a0]">Loading...</p>
+      </div>
+    );
+  }
+
+  if (notFound || !product) {
     return (
       <div className="bg-[#13131a] min-h-screen flex flex-col items-center justify-center font-sans">
         <p className="text-[#8888a0] mb-4">Product not found.</p>
@@ -96,20 +112,56 @@ export default function InventoryDetailPage({ params }: { params: Promise<{ id: 
   const margin = product.sellPrice > 0 ? (((product.sellPrice - product.costPrice) / product.sellPrice) * 100).toFixed(1) : "0";
   const totalValue = stock * product.sellPrice;
 
-  function handleSaveEdit() {
+  async function handleSaveEdit() {
     if (!editForm) return;
-    setStock(editForm.stock);
-    window.location.href = `/inventory/${id}`;
+    setSaving(true);
+    try {
+      const res = await fetch(`/api/products/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: editForm.name,
+          sku: editForm.sku,
+          description: editForm.description,
+          category: editForm.category,
+          costPrice: editForm.costPrice,
+          sellPrice: editForm.sellPrice,
+          stock: editForm.stock,
+          minStock: editForm.minStock,
+        }),
+      });
+      if (!res.ok) throw new Error("failed");
+      window.location.href = `/inventory/${id}`;
+    } catch {
+      setSaving(false);
+    }
   }
 
-  function handleRemove() {
-    window.location.href = "/inventory";
+  async function handleRemove() {
+    try {
+      await fetch(`/api/products/${id}`, { method: "DELETE" });
+    } finally {
+      window.location.href = "/inventory";
+    }
+  }
+
+  async function persistStock(newStock: number) {
+    setStock(newStock);
+    try {
+      await fetch(`/api/products/${id}`, {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ stock: newStock }),
+      });
+    } catch {
+      // stock change failed to persist silently; UI already shows optimistic value
+    }
   }
 
   function handleSetExact() {
     const val = parseInt(exactVal);
     if (!isNaN(val) && val >= 0) {
-      setStock(val);
+      persistStock(val);
     }
     setExactInput(false);
     setExactVal("");
@@ -185,14 +237,14 @@ export default function InventoryDetailPage({ params }: { params: Promise<{ id: 
           <div className="flex items-center gap-2">
             <a
               href="#"
-              onClick={(e) => { e.preventDefault(); setStock(s => Math.max(0, s - 1)); }}
+              onClick={(e) => { e.preventDefault(); persistStock(Math.max(0, stock - 1)); }}
               className="w-10 h-10 bg-[var(--btn-bg)] rounded-full flex items-center justify-center text-white text-lg font-bold no-underline touch-manipulation"
             >
               −
             </a>
             <a
               href="#"
-              onClick={(e) => { e.preventDefault(); setStock(s => s + 1); }}
+              onClick={(e) => { e.preventDefault(); persistStock(stock + 1); }}
               className="w-10 h-10 bg-[var(--accent-1)] rounded-full flex items-center justify-center text-white text-lg font-bold no-underline touch-manipulation"
             >
               +
