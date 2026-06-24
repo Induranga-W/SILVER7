@@ -7,6 +7,7 @@
 
 ![Status](https://img.shields.io/badge/status-in%20development-purple)
 ![React](https://img.shields.io/badge/REACT-000000?style=for-the-badge&logo=react&logoColor=58C4DC)
+![JavaScript](https://img.shields.io/badge/JAVASCRIPT-000000?style=for-the-badge&logo=javascript&logoColor=F7DF1E)
 ![TypeScript](https://img.shields.io/badge/TYPESCRIPT-000000?style=for-the-badge&logo=typescript&logoColor=3178C6)
 ![TailwindCSS](https://img.shields.io/badge/TAILWINDCSS-000000?style=for-the-badge&logo=tailwindcss&logoColor=06B6D4)
 ![Python](https://img.shields.io/badge/PYTHON-000000?style=for-the-badge&logo=python&logoColor=3776AB)
