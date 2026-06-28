@@ -5,30 +5,6 @@ import { Chart as ChartJS, CategoryScale, LinearScale, BarElement, Legend, Toolt
 
 ChartJS.register(CategoryScale, LinearScale, BarElement, Legend, Tooltip);
 
-const data = {
-  labels: ["Oct", "Nov", "Dec", "Jan", "Feb", "Mar"],
-  datasets: [
-    {
-      label: "Revenue",
-      data: [28000, 31000, 47000, 29000, 22000, 36000],
-      backgroundColor: "#1197cc",
-      borderRadius: { topLeft: 3, topRight: 3 },
-      borderSkipped: false as const,
-      barPercentage: 0.55,
-      categoryPercentage: 0.75,
-    },
-    {
-      label: "Profit",
-      data: [8000, 9500, 13000, 7500, 6000, 10500],
-      backgroundColor: "#ffffff",
-      borderRadius: { topLeft: 3, topRight: 3 },
-      borderSkipped: false as const,
-      barPercentage: 0.55,
-      categoryPercentage: 0.75,
-    },
-  ],
-};
-
 const options = {
   responsive: true,
   maintainAspectRatio: false,
@@ -55,10 +31,43 @@ const options = {
   },
 };
 
-export default function RevenueChart() {
+export default function RevenueChart({ orders }: { orders: any[] }) {
+  const now = new Date();
+  const monthLabels: string[] = [];
+  const monthTotals: number[] = [];
+
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    monthLabels.push(d.toLocaleString("en-US", { month: "short" }));
+    const monthStart = new Date(d.getFullYear(), d.getMonth(), 1);
+    const monthEnd = new Date(d.getFullYear(), d.getMonth() + 1, 1);
+    const total = orders
+      .filter(o => {
+        const created = new Date(o.created_at);
+        return created >= monthStart && created < monthEnd;
+      })
+      .reduce((sum, o) => sum + Number(o.total ?? 0), 0);
+    monthTotals.push(total);
+  }
+
+  const data = {
+    labels: monthLabels,
+    datasets: [
+      {
+        label: "Revenue",
+        data: monthTotals,
+        backgroundColor: "#1197cc",
+        borderRadius: { topLeft: 3, topRight: 3 },
+        borderSkipped: false as const,
+        barPercentage: 0.55,
+        categoryPercentage: 0.75,
+      },
+    ],
+  };
+
   return (
     <div className="bg-[var(--card-bg)] rounded-[12px] px-6 pt-[1.4rem] pb-[1.2rem] mt-8">
-      <h2 className="text-base font-bold text-white mb-[0.2rem]">Revenue &amp; Profit</h2>
+      <h2 className="text-base font-bold text-white mb-[0.2rem]">Revenue</h2>
       <p className="text-[0.78rem] text-[var(--accent-1)] mb-5">Past 6 months</p>
       <div className="relative w-full h-[260px]">
         <Bar data={data} options={options} />
